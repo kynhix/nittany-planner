@@ -4,8 +4,7 @@ import { ActiveListContext } from "@/context/active-list-context";
 import { CategoryCard } from "@/components/category-card";
 import { TaskList } from "@/lib/core";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "@radix-ui/react-icons";
+import AddCategoryButton from "@/components/add-category-button";
 
 export default function Home() {
   const [activeList, setActiveList] = useState<TaskList>({
@@ -21,8 +20,8 @@ export default function Home() {
   return (
     <div className="flex flex-wrap p-8">
       <ActiveListContext.Provider value={{ ...activeList, updateContext }}>
-        <Button><PlusIcon /> Add category</Button>
         {/* <CategoryCard category={ } /> */}
+        <AddCategoryButton />
       </ActiveListContext.Provider>
     </div>
   );
