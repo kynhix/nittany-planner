@@ -27,7 +27,7 @@ export default function AddCategoryButton() {
     <Popover>
       <PopoverTrigger asChild>
         <Button>
-          <PlusIcon /> Add category
+          <PlusIcon /> Add new category
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col gap-2 w-56">

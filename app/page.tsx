@@ -18,9 +18,11 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-wrap p-8">
+    <div className="flex flex-wrap p-8 content-start gap-4">
       <ActiveListContext.Provider value={{ ...activeList, updateContext }}>
-        {/* <CategoryCard category={ } /> */}
+        {activeList.categories.map((category) =>
+          <CategoryCard category={category} key={category.id} />
+        )}
         <AddCategoryButton />
       </ActiveListContext.Provider>
     </div>
