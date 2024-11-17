@@ -10,10 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import * as storage from "@/lib/storage"
-import { useState } from "react";
 
-// Menu items.
 const items = [
   {
     title: "Home",
@@ -33,18 +30,17 @@ const items = [
 ]
 
 export function AppSidebar() {
-  const [count, setCount] = useState({ count: 1 });
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Lists {count.count}</SidebarGroupLabel>
+          <SidebarGroupLabel>Lists</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <span onClick={() => count.count += 1}>{item.title}</span>
+                    <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

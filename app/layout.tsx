@@ -10,9 +10,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-
-
-
     <html lang="en">
       <body>
         <SidebarProvider>
@@ -24,9 +21,5 @@ export default function RootLayout({
         </SidebarProvider>
       </body>
     </html>
-
-
-
-
   );
 }
