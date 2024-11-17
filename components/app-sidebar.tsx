@@ -11,6 +11,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
+// Boilerplate, will eventually contain "TaskLists".
 const items = [
   {
     title: "Home",
