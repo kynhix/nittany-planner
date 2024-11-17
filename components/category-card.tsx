@@ -11,7 +11,7 @@ import { PlusIcon } from "@radix-ui/react-icons"
 import { Category } from "@/lib/core"
 
 type CardProps = React.ComponentProps<typeof Card> & { category: Category }
-export function CardDemo({ className, category, ...props }: CardProps) {
+export function CategoryCard({ className, category, ...props }: CardProps) {
   return (
     <Card className={cn("w-80", "h-fit", className)} {...props}>
       <CardHeader>
