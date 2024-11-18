@@ -23,7 +23,7 @@ export default function Home() {
         {activeList.categories.map((category) =>
           <CategoryCard category={category} key={category.id} />
         )}
-        <AddCategoryButton />
+        <AddCategoryButton /> {/* Adds AddCategoryButton to the page */}
       </ActiveListContext.Provider>
     </div>
   );
