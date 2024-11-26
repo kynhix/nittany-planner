@@ -12,7 +12,12 @@ import {
 import { Button } from "@/components/ui/button"
 import { TrashIcon } from "@radix-ui/react-icons"
 
-export function ConfirmDeleteDialog() {
+type ConfirmDeleteDialogProps = {
+  onAction?: () => void
+  onCancel?: () => void
+};
+
+export function ConfirmDeleteDialog(props: ConfirmDeleteDialogProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -29,8 +34,8 @@ export function ConfirmDeleteDialog() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogCancel onClick={props.onCancel}>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={props.onAction}>Confirm</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
