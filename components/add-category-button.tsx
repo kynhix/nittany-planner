@@ -10,9 +10,12 @@ export default function AddCategoryButton() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onClickHandler = () => {
+    if (!inputRef.current) {
+      return;
+    }
     activeList.categories.push({
       id: Math.floor(Math.random() * 1000000),
-      name: inputRef.current?.value ?? 'My category',
+      name: inputRef.current.value,
       tasks: [],
     })
     activeList.updateContext();

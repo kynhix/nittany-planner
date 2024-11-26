@@ -12,9 +12,12 @@ export default function AddTaskButton({ category }: { category: Category }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addTask = () => {
+    if (!inputRef.current) {
+      return;
+    }
     category.tasks.push({
       id: Math.floor(Math.random() * 1000000),
-      name: inputRef.current?.value ?? 'My category',
+      name: inputRef.current.value,
       completed: false,
     })
     // Updates the activeList context so that changes/updates are immediately available.
