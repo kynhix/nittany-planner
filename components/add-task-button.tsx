@@ -27,7 +27,7 @@ export default function AddTaskButton({ category }: { category: Category }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="">
+        <Button className="w-full">
           <PlusIcon /> Add task
         </Button>
       </PopoverTrigger>
