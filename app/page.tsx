@@ -13,7 +13,11 @@ export default function Home() {
     categories: [],
   });
 
-  const updateContext = () => {
+  const updateContext = (list?: TaskList) => {
+    if (list) {
+      setActiveList(list)
+      return;
+    }
     setActiveList({ ...activeList })
   };
 
