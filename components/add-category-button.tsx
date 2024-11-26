@@ -4,6 +4,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { ActiveListContext } from "@/context/active-list-context";
 import { Input } from "@/components/ui/input"
 import { useContext, useRef } from "react";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 export default function AddCategoryButton() {
   const activeList = useContext(ActiveListContext);
@@ -18,7 +19,8 @@ export default function AddCategoryButton() {
       name: inputRef.current.value,
       tasks: [],
     })
-    activeList.updateContext();
+    activeList.updateContext()
+    inputRef.current.value = ''
   }
 
   return (
@@ -30,9 +32,11 @@ export default function AddCategoryButton() {
       </PopoverTrigger>
       <PopoverContent className="flex flex-col gap-2 w-56">
         <Input ref={inputRef} placeholder="Category name" />
-        <Button onClick={onClickHandler}>
-          Create
-        </Button>
+        <PopoverClose asChild>
+          <Button onClick={onClickHandler}>
+            Create
+          </Button>
+        </PopoverClose>
       </PopoverContent>
     </Popover>
   )
