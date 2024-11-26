@@ -9,17 +9,25 @@ import {
 import { Category } from "@/lib/core"
 import AddTaskButton from "@/components/add-task-button"
 import { ConfirmDeleteDialog } from "./confirm-delete-dialog"
+import { ActiveListContext } from "@/context/active-list-context"
+import { useContext } from "react"
 
 type CardProps = React.ComponentProps<typeof Card> & { category: Category }
 
 export function CategoryCard({ className, category, ...props }: CardProps) {
+  const activeList = useContext(ActiveListContext);
+
+  const onDelete = () => {
+    activeList.categories = activeList.categories.filter((cat) => cat !== category)
+    activeList.updateContext(activeList)
+  }
 
   return (
     <Card className={cn("w-80", "h-fit", className)} {...props}>
       <CardHeader>
-        <CardTitle className="flex justify-between">
+        <CardTitle className="font-normal text-xl flex justify-between">
           <span>{category.name}</span>
-          <ConfirmDeleteDialog />
+          <ConfirmDeleteDialog onAction={onDelete} />
         </CardTitle>
       </CardHeader>
 
