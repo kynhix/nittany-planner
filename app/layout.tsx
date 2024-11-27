@@ -3,7 +3,7 @@
 import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
-import { load } from "@/lib/storage";
+import { load, save } from "@/lib/storage";
 import { ActiveListContext } from "@/context/active-list-context";
 import { useEffect, useState } from "react";
 import { TaskList } from "@/lib/core";
@@ -13,7 +13,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [lists, setLists] = useState<TaskList[]>([]);
+  const [lists, _setLists] = useState<TaskList[]>([]);
   const [activeList, setActiveList] = useState<TaskList>({
     id: -1,
     name: 'invalid list',
@@ -28,8 +28,13 @@ export default function RootLayout({
     setActiveList({ ...activeList })
   };
 
+  const setLists = (lists: TaskList[]) => {
+    _setLists(lists)
+    save(lists)
+  }
+
   useEffect(() => {
-    setLists(load())
+    _setLists(load() ?? [])
   }, []);
 
   return (
