@@ -26,6 +26,7 @@ export default function RootLayout({
       return;
     }
     setActiveList({ ...activeList })
+    save(lists)
   };
 
   const setLists = (lists: TaskList[]) => {
