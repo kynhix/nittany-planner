@@ -4,44 +4,35 @@ import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
+  SidebarGroupAction,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { TaskList } from "@/lib/core";
+import { PlusIcon } from "@radix-ui/react-icons";
 
-// Boilerplate, will eventually contain "TaskLists".
-const items = [
-  {
-    title: "Home",
-  },
-  {
-    title: "Inbox",
-  },
-  {
-    title: "Calendar",
-  },
-  {
-    title: "Search",
-  },
-  {
-    title: "Settings",
-  },
-]
+type AppSidebarProps = {
+  lists: TaskList[]
+}
 
-export function AppSidebar() {
+export function AppSidebar({ lists }: AppSidebarProps) {
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Lists</SidebarGroupLabel>
+          <SidebarGroupAction title="Add List">
+            <PlusIcon /> <span className="sr-only">Add Project</span>
+          </SidebarGroupAction>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+              {lists.map((list) => (
+                <SidebarMenuItem key={list.name}>
                   <SidebarMenuButton asChild>
-                    <span>{item.title}</span>
+                    <span>{list.name}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
