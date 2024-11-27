@@ -23,6 +23,7 @@ export default function RootLayout({
   const updateContext = (list?: TaskList) => {
     if (list) {
       setActiveList(list)
+      _setLists(lists.map((l) => l.id === list.id ? list : l))
       save(lists)
       return;
     }
