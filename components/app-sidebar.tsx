@@ -46,7 +46,7 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
             <SidebarMenu>
               {lists.length !== 0 ? lists.map((list) => (
                 <SidebarMenuItem key={list.name}>
-                  <SidebarMenuButton onClick={() => onClickList(list)} asChild>
+                  <SidebarMenuButton onClick={() => onClickList(list)} asChild isActive={activeList.id === list.id}>
                     <span>{list.name}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
