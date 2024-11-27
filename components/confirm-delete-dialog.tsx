@@ -29,8 +29,7 @@ export function ConfirmDeleteDialog(props: ConfirmDeleteDialogProps) {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            category and the associated tasks.
+            This action is permanent and can not be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
