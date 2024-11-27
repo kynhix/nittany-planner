@@ -14,12 +14,20 @@ import {
 import { TaskList } from "@/lib/core";
 import AddListButton from "./add-list-button";
 import { PlusIcon } from "@radix-ui/react-icons";
+import { useContext } from "react";
+import { ActiveListContext } from "@/context/active-list-context";
 
 type AppSidebarProps = {
   lists: TaskList[]
 }
 
 export function AppSidebar({ lists }: AppSidebarProps) {
+  const activeList = useContext(ActiveListContext);
+
+  const onClickList = (list: TaskList) => {
+    activeList.updateContext(list)
+  }
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -32,7 +40,7 @@ export function AppSidebar({ lists }: AppSidebarProps) {
             <SidebarMenu>
               {lists.length !== 0 ? lists.map((list) => (
                 <SidebarMenuItem key={list.name}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton onClick={() => onClickList(list)} asChild>
                     <span>{list.name}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
