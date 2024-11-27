@@ -1,34 +1,20 @@
 'use client';
 
-import { ActiveListContext } from "@/context/active-list-context";
 import { CategoryCard } from "@/components/category-card";
-import { TaskList } from "@/lib/core";
-import { useState } from "react";
 import AddCategoryButton from "@/components/add-category-button";
+import { useContext } from "react";
+import { ActiveListContext } from "@/context/active-list-context";
 
 export default function Home() {
-  const [activeList, setActiveList] = useState<TaskList>({
-    id: 0,
-    name: 'My list',
-    categories: [],
-  });
+  const activeList = useContext(ActiveListContext);
 
-  const updateContext = (list?: TaskList) => {
-    if (list) {
-      setActiveList(list)
-      return;
-    }
-    setActiveList({ ...activeList })
-  };
-
-  return (
+  return (activeList.id !== -1 ?
     <div className="flex flex-wrap p-8 content-start gap-4">
-      <ActiveListContext.Provider value={{ ...activeList, updateContext }}>
-        {activeList.categories.map((category) =>
-          <CategoryCard category={category} key={category.id} />
-        )}
-        <AddCategoryButton /> {/* Adds AddCategoryButton to the page */}
-      </ActiveListContext.Provider>
+      {activeList.categories.map((category) =>
+        <CategoryCard category={category} key={category.id} />
+      )}
+      <AddCategoryButton /> {/* Adds AddCategoryButton to the page */}
     </div>
+    : <div className="flex m-auto justify-center items-center">Wow such empty. Select a list first.</div>
   );
 }
