@@ -19,13 +19,19 @@ import { ActiveListContext } from "@/context/active-list-context";
 
 type AppSidebarProps = {
   lists: TaskList[]
+  setLists: (lists: TaskList[]) => void
 }
 
-export function AppSidebar({ lists }: AppSidebarProps) {
+export function AppSidebar({ lists, ...props }: AppSidebarProps) {
   const activeList = useContext(ActiveListContext);
 
   const onClickList = (list: TaskList) => {
     activeList.updateContext(list)
+  }
+
+  const onAddList = (list: TaskList) => {
+    lists.push(list)
+    props.setLists(lists.slice())
   }
 
   return (
@@ -34,7 +40,7 @@ export function AppSidebar({ lists }: AppSidebarProps) {
         <SidebarGroup>
           <SidebarGroupLabel>Lists</SidebarGroupLabel>
           <SidebarGroupAction title="Add List">
-            <AddListButton />
+            <AddListButton onClick={onAddList} />
           </SidebarGroupAction>
           <SidebarGroupContent>
             <SidebarMenu>

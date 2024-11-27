@@ -37,7 +37,7 @@ export default function RootLayout({
       <body>
         <SidebarProvider>
           <ActiveListContext.Provider value={{ ...activeList, updateContext }}>
-            <AppSidebar lists={lists} />
+            <AppSidebar lists={lists} setLists={setLists} />
             <main className="flex w-full h-screen">
               <SidebarTrigger />
               {children}
