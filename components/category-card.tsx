@@ -15,14 +15,6 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
   const [hoveredTaskId, setHoveredTaskId] = useState<number | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-  // Deactivated for now.
-  const debugCategory = (category: Category) => {
-    console.log(category);
-    console.log("Category ID:    ", category.id);
-    console.log("Category Name:  ", category.name);
-    console.log("Category Tasks: ", category.tasks);
-  }
-
   const showHoverButtons = (task: Task) => {
     setHoveredTaskId(task.id);
   };
@@ -58,12 +50,10 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
     if (action === "open" && task) {
       setSelectedTask(task);
     }
-
     // Closes the popover and clears the selected task.
     if (action === "close") {
       setSelectedTask(null);
     }
-
     // Saves the task.
     // Update the task in the category.tasks array.
     // Closes the popover and clears the selected task.
@@ -73,7 +63,6 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
       );
       setSelectedTask(null);
     }
-
     activeList.updateContext(activeList);
   };
 
@@ -137,8 +126,6 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
       </CardContent>
       <CardFooter className="flex flex-col">
         <div className="flex justify-betweeen">
-          {/*Debug button that displays Category information.*/}
-          {/*<Button onClick={() => debugCategory(category)}>Debug</Button>*/}
           <AddTaskButton category={category} />
         </div>
       </CardFooter>
