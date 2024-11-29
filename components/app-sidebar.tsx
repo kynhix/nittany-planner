@@ -14,7 +14,7 @@ import {
 import { TaskList } from "@/lib/core";
 import AddListButton from "./add-list-button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import { ActiveListContext } from "@/context/active-list-context";
 import { ConfirmDeleteDialog } from "./confirm-delete-dialog";
 
