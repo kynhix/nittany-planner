@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/input"
 import { PopoverClose } from "@radix-ui/react-popover";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { TaskList } from "@/lib/core";
+import { ActiveListContext } from "@/context/active-list-context";
 
 type AddListButtonProps = {
   onClick: (list: TaskList) => void
@@ -12,11 +13,18 @@ type AddListButtonProps = {
 
 export default function AddListButton({ onClick }: AddListButtonProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const activeList = useContext(ActiveListContext);
 
-  const onClickHandler = () => {
+  const addList = (event?: React.FormEvent) => {
+    // Prevents the default form submission behavior.
+    if (event) {
+      event.preventDefault();
+    }
     if (!inputRef.current) {
       return;
     }
+
+    const listName = inputRef.current.value.trim();
 
     onClick({
       id: Math.floor(Math.random() * 1000000),
@@ -24,7 +32,8 @@ export default function AddListButton({ onClick }: AddListButtonProps) {
       categories: [],
     })
 
-    inputRef.current.value = ''
+    activeList.updateContext();
+    inputRef.current.value = '';
   }
 
   return (
@@ -34,12 +43,14 @@ export default function AddListButton({ onClick }: AddListButtonProps) {
         {/* <span className="sr-only">Add Project</span> */}
       </PopoverTrigger>
       <PopoverContent className="flex flex-col gap-2 w-56">
-        <Input ref={inputRef} placeholder="List name" />
-        <PopoverClose asChild>
-          <Button onClick={onClickHandler}>
-            Create List
-          </Button>
-        </PopoverClose>
+        <form onSubmit={addList} className="flex flex-col gap-2">
+          <Input ref={inputRef} placeholder="List name" />
+          <PopoverClose asChild>
+            <Button onClick={addList}>
+              Create List
+            </Button>
+          </PopoverClose>
+        </form>
       </PopoverContent>
     </Popover>
   )

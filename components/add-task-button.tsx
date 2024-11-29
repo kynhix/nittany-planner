@@ -12,19 +12,25 @@ export default function AddTaskButton({ category }: { category: Category }) {
   const activeList = useContext(ActiveListContext);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const addTask = () => {
+  const addTask = (event?: React.FormEvent) => {
+    // Prevents the default form submission behavior.
+    if (event) {
+      event.preventDefault();
+    }
     if (!inputRef.current) {
       return;
     }
+
+    const taskName = inputRef.current.value.trim();
     category.tasks.push({
       id: Math.floor(Math.random() * 1000000),
-      name: inputRef.current.value,
+      name: taskName,
       completed: false,
-    })
-    // Updates the activeList context so that changes/updates are immediately available.
+    });
+
     activeList.updateContext();
-    inputRef.current.value = ''
-  }
+    inputRef.current.value = '';
+  };
 
   return (
     <Popover>
@@ -34,13 +40,13 @@ export default function AddTaskButton({ category }: { category: Category }) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col gap-2 w-56">
-        {/* Input field that stores input as inputRef */}
-        <Input ref={inputRef} placeholder="Task name" />
-        <PopoverClose asChild>
-          <Button onClick={addTask}>
-            Create
-          </Button>
-        </PopoverClose>
+        {/* Wrap input and button in a form */}
+        <form onSubmit={addTask} className="flex flex-col gap-2">
+          <Input ref={inputRef} placeholder="Task name" />
+          <PopoverClose asChild>
+            <Button type="submit">Create</Button>
+          </PopoverClose>
+        </form>
       </PopoverContent>
     </Popover>
   );
