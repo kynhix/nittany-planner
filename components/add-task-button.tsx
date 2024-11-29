@@ -29,6 +29,7 @@ export default function AddTaskButton({ category }: { category: Category }) {
     });
 
     activeList.updateContext();
+    inputRef.current.value = '';
   };
 
   return (
@@ -39,6 +40,7 @@ export default function AddTaskButton({ category }: { category: Category }) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col gap-2 w-56">
+        {/* Wrap input and button in a form */}
         <form onSubmit={addTask} className="flex flex-col gap-2">
           <Input ref={inputRef} placeholder="Task name" />
           <PopoverClose asChild>
