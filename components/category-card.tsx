@@ -132,3 +132,4 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
       </CardFooter>
     </Card >
   )
+}
