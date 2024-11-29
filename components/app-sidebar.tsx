@@ -37,26 +37,16 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
   }
 
   const showHoverButtons = (list: TaskList) => {
-    setHoveredTaskId(list.id);
+    setHoveredTaskId(list.id)
   };
 
   const hideHoverButtons = () => {
-    setHoveredTaskId(null);
+    setHoveredTaskId(null)
   };
 
   const deleteList = (list: TaskList) => {
-    let indexToDelete = -1;
-    for (let i = 0; i < lists.length; i++) {
-      if (lists[i].id == list.id) {
-        indexToDelete = i;
-        break;
-      }
-    }
-    if (indexToDelete != -1) {
-      lists.splice(indexToDelete, 1);
-    }
-    activeList.updateContext(activeList);
-  };
+    props.setLists(lists.filter((l) => l.id != list.id).slice())
+  }
 
   return (
     <Sidebar>
@@ -69,10 +59,10 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {lists.length !== 0 ? lists.map((list) => (
-                <SidebarMenuItem key={list.name}
+                <SidebarMenuItem key={list.id}
                   onMouseEnter={() => showHoverButtons(list)}
                   onMouseLeave={hideHoverButtons}>
-                  <SidebarMenuButton onClick={() => onClickList(list)} asChild isActive={activeList.id === list.id}>
+                  <SidebarMenuButton onClick={() => onClickList(list)} isActive={activeList.id === list.id} asChild>
                     <div className="flex justify-between">
                       <span>{list.name}</span>
                       {hoveredTaskId === list.id && (<ConfirmDeleteDialog onAction={() => deleteList(list)} />)}
