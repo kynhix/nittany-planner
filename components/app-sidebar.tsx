@@ -65,11 +65,11 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
                       </SidebarMenuAction>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent side="right" align="start">
-                      <DropdownMenuItem onSelect={(e) => { e.preventDefault() }}>
+                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                         <span>Edit Project</span>
                       </DropdownMenuItem>
                       <ConfirmDeleteDialog onAction={() => deleteList(list)}>
-                        <DropdownMenuItem onSelect={(e) => { e.preventDefault() }}>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                           <span>Delete Project</span>
                         </DropdownMenuItem>
                       </ConfirmDeleteDialog>
