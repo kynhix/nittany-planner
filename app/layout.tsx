@@ -31,9 +31,9 @@ export default function RootLayout({
     save(lists)
   };
 
-  const setLists = (lists: TaskList[]) => {
-    _setLists(lists)
-    save(lists)
+  const setLists = (newLists: TaskList[]) => {
+    _setLists(newLists)
+    save(newLists)
   }
 
   useEffect(() => {

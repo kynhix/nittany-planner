@@ -11,7 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Task, TaskList } from "@/lib/core";
+import { TaskList } from "@/lib/core";
 import AddListButton from "./add-list-button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useContext, useState } from "react";
@@ -45,7 +45,7 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
   };
 
   const deleteList = (list: TaskList) => {
-    props.setLists(lists.filter((l) => l.id != list.id).slice())
+    props.setLists(lists.filter((l) => l.id != list.id))
   }
 
   return (
