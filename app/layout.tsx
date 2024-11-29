@@ -5,7 +5,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { load, save } from "@/lib/storage";
 import { ActiveListContext } from "@/context/active-list-context";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TaskList } from "@/lib/core";
 
 export default function RootLayout({
@@ -21,6 +21,7 @@ export default function RootLayout({
   });
 
   const updateContext = (list?: TaskList) => {
+    console.log('GOD FUCKING DAMMIT')
     if (list) {
       setActiveList(list)
       _setLists(lists.map((l) => l.id === list.id ? list : l))
@@ -31,10 +32,10 @@ export default function RootLayout({
     save(lists)
   };
 
-  const setLists = (newLists: TaskList[]) => {
+  const setLists = useCallback((newLists: TaskList[]) => {
     _setLists(newLists)
     save(newLists)
-  }
+  }, [])
 
   useEffect(() => {
     _setLists(load() ?? [])

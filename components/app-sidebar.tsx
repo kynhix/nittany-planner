@@ -14,7 +14,7 @@ import {
 import { TaskList } from "@/lib/core";
 import AddListButton from "./add-list-button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { useContext, useState } from "react";
+import { useContext, useRef } from "react";
 import { ActiveListContext } from "@/context/active-list-context";
 import { ConfirmDeleteDialog } from "./confirm-delete-dialog";
 
@@ -25,24 +25,14 @@ type AppSidebarProps = {
 
 export function AppSidebar({ lists, ...props }: AppSidebarProps) {
   const activeList = useContext(ActiveListContext);
-  const [hoveredTaskId, setHoveredTaskId] = useState<number | null>(null);
 
   const onClickList = (list: TaskList) => {
     activeList.updateContext(list)
   }
 
   const onAddList = (list: TaskList) => {
-    lists.push(list)
-    props.setLists(lists.slice())
+    props.setLists([...lists, list])
   }
-
-  const showHoverButtons = (list: TaskList) => {
-    setHoveredTaskId(list.id)
-  };
-
-  const hideHoverButtons = () => {
-    setHoveredTaskId(null)
-  };
 
   const deleteList = (list: TaskList) => {
     props.setLists(lists.filter((l) => l.id != list.id))
@@ -59,13 +49,13 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {lists.length !== 0 ? lists.map((list) => (
-                <SidebarMenuItem key={list.id}
-                  onMouseEnter={() => showHoverButtons(list)}
-                  onMouseLeave={hideHoverButtons}>
+                <SidebarMenuItem key={list.id}>
                   <SidebarMenuButton onClick={() => onClickList(list)} isActive={activeList.id === list.id} asChild>
                     <div className="flex justify-between">
                       <span>{list.name}</span>
-                      {hoveredTaskId === list.id && (<ConfirmDeleteDialog onAction={() => deleteList(list)} />)}
+                      <div onClick={(e) => e.stopPropagation()}>
+                        <ConfirmDeleteDialog onAction={() => deleteList(list)} />
+                      </div>
                     </div>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
