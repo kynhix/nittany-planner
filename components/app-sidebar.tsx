@@ -50,10 +50,15 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
             <SidebarMenu>
               {lists.length !== 0 ? lists.map((list) => (
                 <SidebarMenuItem key={list.id}>
-                  <SidebarMenuButton onClick={() => onClickList(list)} isActive={activeList.id === list.id} asChild>
-                    <div className="flex justify-between">
+                  <SidebarMenuButton
+                    onClick={() => onClickList(list)}
+                    isActive={activeList.id === list.id}
+                    asChild>
+                    <div className="group/row flex justify-between">
                       <span>{list.name}</span>
-                      <div onClick={(e) => e.stopPropagation()}>
+                      <div
+                        className="invisible group-hover/row:visible absolute right-0"
+                        onClick={(e) => e.stopPropagation()}>
                         <ConfirmDeleteDialog onAction={() => deleteList(list)} />
                       </div>
                     </div>

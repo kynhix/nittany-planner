@@ -126,9 +126,7 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
         </ul>
       </CardContent>
       <CardFooter className="flex flex-col">
-        <div className="flex justify-betweeen">
-          <AddTaskButton category={category} />
-        </div>
+        <AddTaskButton category={category} />
       </CardFooter>
     </Card >
   )
