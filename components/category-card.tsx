@@ -5,15 +5,15 @@ import AddTaskButton from "@/components/add-task-button"
 import { ConfirmDeleteDialog } from "./confirm-delete-dialog"
 import { ActiveListContext } from "@/context/active-list-context"
 import { useContext, useState } from "react"
-import { CheckboxIcon } from "@radix-ui/react-icons"
-import { Button } from "./ui/button"
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover"
+import { ModifyTaskPopover } from "./modify-task-popover"
 
 type CardProps = React.ComponentProps<typeof Card> & { category: Category }
 
 export function CategoryCard({ className, category, ...props }: CardProps) {
   const activeList = useContext(ActiveListContext);
-  // For the mouse hover/unhover.
   const [hoveredTaskId, setHoveredTaskId] = useState<number | null>(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   const showHoverButtons = (task: Task) => {
     setHoveredTaskId(task.id);
@@ -44,6 +44,29 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
     activeList.updateContext(activeList)
   };
 
+  // Modify Task Logic
+  const modifyTask = (task: Task | null, action: "open" | "save" | "close", updatedTask?: Task) => {
+    // Opens the popover and selects the task.
+    if (action === "open" && task) {
+      setSelectedTask(task);
+    }
+    // Closes the popover and clears the selected task.
+    if (action === "close") {
+      setSelectedTask(null);
+    }
+    // Saves the task.
+    // Update the task in the category.tasks array.
+    // Closes the popover and clears the selected task.
+    if (action === "save" && updatedTask) {
+      category.tasks = category.tasks.map((t) =>
+        t.id === updatedTask.id ? updatedTask : t
+      );
+      setSelectedTask(null);
+    }
+    activeList.updateContext(activeList);
+  };
+
+
   return (
     <Card className={cn("w-80", "h-fit", className)} {...props}>
 
@@ -53,33 +76,59 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
           <ConfirmDeleteDialog onAction={deleteCategory} />
         </CardTitle>
       </CardHeader>
-
       <CardContent className="grid gap-4 p-3">
         <ul>
           {category.tasks.map((task) => (
-            <li className="p-2" key={task.id} onMouseEnter={() => showHoverButtons(task)} onMouseLeave={hideHoverButtons}>
-              <div className="flex justify-between">
-                <div className="flex w-full">
-                  <CheckboxIcon className="mt-1 mr-2"></CheckboxIcon>{task.name}
+            <li
+              className="p-2 border"
+              key={task.id}
+              onMouseEnter={() => showHoverButtons(task)}
+              onMouseLeave={hideHoverButtons}>
+              <div className="flex items-center">
+                {/* Checkbox. */}
+                <div className="flex-none">
+                  <input type="checkbox" className="mt-1 mr-2" />
                 </div>
-                {hoveredTaskId === task.id &&
-                  <div className="h-5">
+                {/* Task Name. */}
+                <div
+                  className="flex-grow w-full justify-center align-center"
+                  onClick={() => modifyTask(task, "open")}
+                >
+                  <span className="w-full">{task.name}</span>
+                </div>
+                {/* Delete Button. */}
+                <div className="flex-none">
+                  {hoveredTaskId === task.id && (
                     <ConfirmDeleteDialog onAction={() => deleteTask(task)} />
-                  </div>
-                }
+                  )}
+                </div>
               </div>
+              {/* The modify task popover. */}
+              {selectedTask?.id === task.id && (
+                <Popover
+                  // Opens the popover when its clicked.
+                  open={true}
+                  onOpenChange={(isOpen) => !isOpen && setSelectedTask(null)}>
+                  <PopoverTrigger asChild>
+                    {/*Not sure why, but this div is required for it to render. */}
+                    <div />
+                  </PopoverTrigger>
+                  <ModifyTaskPopover
+                    // Selects a tesk, saves and modifies it, and closes the popover.
+                    task={selectedTask}
+                    onSave={(updatedTask) => modifyTask(null, "save", updatedTask)}
+                    onClose={() => modifyTask(null, "close")}
+                  />
+                </Popover>
+              )}
             </li>
           ))}
         </ul>
       </CardContent>
-
       <CardFooter className="flex flex-col">
         <div className="flex justify-betweeen">
-          <Button onClick={() => console.log(category)}>Debug</Button>
           <AddTaskButton category={category} />
         </div>
       </CardFooter>
-
     </Card >
   )
-}

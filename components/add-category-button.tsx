@@ -10,18 +10,25 @@ export default function AddCategoryButton() {
   const activeList = useContext(ActiveListContext);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const onClickHandler = () => {
+  const addCategory = (event?: React.FormEvent) => {
+    // Prevents the default form submission behavior.
+    if (event) {
+      event.preventDefault();
+    }
     if (!inputRef.current) {
       return;
     }
+    const categoryName = inputRef.current.value.trim();
+
+
     activeList.categories.push({
       id: Math.floor(Math.random() * 1000000),
-      name: inputRef.current.value,
+      name: categoryName,
       tasks: [],
     })
-    activeList.updateContext()
-    inputRef.current.value = ''
-  }
+    activeList.updateContext();
+    inputRef.current.value = '';
+  };
 
   return (
     <Popover>
@@ -31,13 +38,13 @@ export default function AddCategoryButton() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col gap-2 w-56">
-        <Input ref={inputRef} placeholder="Category name" />
-        <PopoverClose asChild>
-          <Button onClick={onClickHandler}>
-            Create
-          </Button>
-        </PopoverClose>
+        <form onSubmit={addCategory} className="flex flex-col gap-2">
+          <Input ref={inputRef} placeholder="Category name" />
+          <PopoverClose asChild>
+            <Button type="submit">Create</Button>
+          </PopoverClose>
+        </form>
       </PopoverContent>
-    </Popover>
+    </Popover >
   )
 }
