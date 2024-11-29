@@ -8,15 +8,17 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { TaskList } from "@/lib/core";
 import AddListButton from "./add-list-button";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useContext } from "react";
 import { ActiveListContext } from "@/context/active-list-context";
 import { ConfirmDeleteDialog } from "./confirm-delete-dialog";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 type AppSidebarProps = {
   lists: TaskList[]
@@ -54,15 +56,25 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
                     onClick={() => onClickList(list)}
                     isActive={activeList.id === list.id}
                     asChild>
-                    <div className="group/row flex justify-between">
-                      <span>{list.name}</span>
-                      <div
-                        className="invisible group-hover/row:visible absolute right-0"
-                        onClick={(e) => e.stopPropagation()}>
-                        <ConfirmDeleteDialog onAction={() => deleteList(list)} />
-                      </div>
-                    </div>
+                    <span>{list.name}</span>
                   </SidebarMenuButton>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <SidebarMenuAction>
+                        <DotsHorizontalIcon />
+                      </SidebarMenuAction>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent side="right" align="start">
+                      <DropdownMenuItem onSelect={(e) => { e.preventDefault() }}>
+                        <span>Edit Project</span>
+                      </DropdownMenuItem>
+                      <ConfirmDeleteDialog onAction={() => deleteList(list)}>
+                        <DropdownMenuItem onSelect={(e) => { e.preventDefault() }}>
+                          <span>Delete Project</span>
+                        </DropdownMenuItem>
+                      </ConfirmDeleteDialog>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </SidebarMenuItem>
               ))
                 : (

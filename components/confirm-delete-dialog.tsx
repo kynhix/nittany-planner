@@ -15,15 +15,17 @@ import { TrashIcon } from "@radix-ui/react-icons"
 type ConfirmDeleteDialogProps = {
   onAction?: () => void
   onCancel?: () => void
+  children?: React.ReactNode
 };
 
 export function ConfirmDeleteDialog(props: ConfirmDeleteDialogProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="p-2 h-full aspect-square bg-red-900 hover:bg-red-800">
-          <TrashIcon className="text-red-50" />
-        </Button>
+        {props.children ?? (
+          <Button className="p-2 h-full aspect-square bg-red-900 hover:bg-red-800">
+            <TrashIcon className="text-red-50" />
+          </Button>)}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
