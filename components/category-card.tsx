@@ -69,6 +69,7 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
 
   return (
     <Card className={cn("w-80", "h-fit", className)} {...props}>
+
       <CardHeader>
         <CardTitle className="font-normal text-xl flex justify-between">
           <span>{category.name}</span>
@@ -131,4 +132,3 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
       </CardFooter>
     </Card >
   )
-}
