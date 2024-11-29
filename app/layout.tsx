@@ -21,7 +21,6 @@ export default function RootLayout({
   });
 
   const updateContext = (list?: TaskList) => {
-    console.log('GOD FUCKING DAMMIT')
     if (list) {
       setActiveList(list)
       _setLists(lists.map((l) => l.id === list.id ? list : l))
