@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
 import { Category, Task } from "@/lib/core"
-import AddTaskButton from "@/components/add-task-button"
 import { ActiveListContext } from "@/context/active-list-context"
 import { useContext } from "react"
 import { DropdownEditDelete } from "./dropdown-edit-delete"
