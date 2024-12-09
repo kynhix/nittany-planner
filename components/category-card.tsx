@@ -5,12 +5,24 @@ import AddTaskButton from "@/components/add-task-button"
 import { ActiveListContext } from "@/context/active-list-context"
 import { useContext } from "react"
 import { DropdownEditDelete } from "./dropdown-edit-delete"
-import { DotsHorizontalIcon } from "@radix-ui/react-icons"
+import { DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons"
+import { Button } from "./ui/button"
+import PopoverInputString from "./popover-input-string"
 
 type CardProps = React.ComponentProps<typeof Card> & { category: Category }
 
 export function CategoryCard({ className, category, ...props }: CardProps) {
   const activeList = useContext(ActiveListContext);
+
+  const addTask = (s: string) => {
+    category.tasks.push({
+      id: Math.floor(Math.random() * 1000000),
+      name: s,
+      completed: false,
+    });
+
+    activeList.updateContext();
+  };
 
   const deleteCategory = () => {
     activeList.categories = activeList.categories.filter((cat) => cat !== category)
@@ -57,7 +69,11 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
         </ul>
       </CardContent>
       <CardFooter className="flex flex-col">
-        <AddTaskButton category={category} />
+        <PopoverInputString name="Task" onSubmit={addTask}>
+          <Button className="w-full">
+            <PlusIcon /> Add task
+          </Button>
+        </PopoverInputString>
       </CardFooter>
     </Card >
   )
