@@ -18,8 +18,6 @@ import { DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useContext } from "react";
 import { ActiveListContext } from "@/context/active-list-context";
 import { DropdownEditDelete } from "./dropdown-edit-delete";
-import { useDialogDropdown } from "./ui/use-dialog";
-import { ConfirmDeleteDialog } from "./confirm-delete-dialog";
 
 type AppSidebarProps = {
   lists: TaskList[]
