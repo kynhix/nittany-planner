@@ -22,6 +22,11 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
     activeList.updateContext(activeList)
   };
 
+  const toggleTaskCompletion = (task: Task) => {
+    task.completed = !task.completed
+    activeList.updateContext()
+  }
+
   return (
     <Card className={cn("w-80", "h-fit", className)} {...props}>
       <CardHeader>
@@ -40,7 +45,7 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
             <li
               className="flex items-center p-2 gap-2"
               key={task.id}>
-              <input type="checkbox" />
+              <input type="checkbox" checked={task.completed} onChange={() => toggleTaskCompletion(task)} />
               <span className="w-full">{task.name}</span>
               <DropdownEditDelete name="Task" onDelete={() => deleteTask(task)} onEdit={() => undefined}>
                 <button>
