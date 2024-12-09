@@ -17,8 +17,9 @@ import AddListButton from "./add-list-button";
 import { DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useContext } from "react";
 import { ActiveListContext } from "@/context/active-list-context";
+import { DropdownEditDelete } from "./dropdown-edit-delete";
+import { useDialogDropdown } from "./ui/use-dialog";
 import { ConfirmDeleteDialog } from "./confirm-delete-dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 type AppSidebarProps = {
   lists: TaskList[]
@@ -41,51 +42,41 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
   }
 
   return (
-    <Sidebar>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Lists</SidebarGroupLabel>
-          <SidebarGroupAction title="Add List">
-            <AddListButton onClick={onAddList} />
-          </SidebarGroupAction>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {lists.length !== 0 ? lists.map((list) => (
-                <SidebarMenuItem key={list.id}>
-                  <SidebarMenuButton
-                    onClick={() => onClickList(list)}
-                    isActive={activeList.id === list.id}
-                    asChild>
-                    <span>{list.name}</span>
-                  </SidebarMenuButton>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+    <>
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Lists</SidebarGroupLabel>
+            <SidebarGroupAction title="Add List">
+              <AddListButton onClick={onAddList} />
+            </SidebarGroupAction>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {lists.length !== 0 ? lists.map((list) => (
+                  <SidebarMenuItem key={list.id}>
+                    <SidebarMenuButton
+                      onClick={() => onClickList(list)}
+                      isActive={activeList.id === list.id}
+                      asChild>
+                      <span>{list.name}</span>
+                    </SidebarMenuButton>
+                    <DropdownEditDelete name="List" onDelete={() => deleteList(list)} onEdit={() => undefined}>
                       <SidebarMenuAction>
                         <DotsHorizontalIcon />
                       </SidebarMenuAction>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent side="right" align="start">
-                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                        <span>Edit Project</span>
-                      </DropdownMenuItem>
-                      <ConfirmDeleteDialog onAction={() => deleteList(list)}>
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                          <span>Delete Project</span>
-                        </DropdownMenuItem>
-                      </ConfirmDeleteDialog>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </SidebarMenuItem>
-              ))
-                : (
-                  <div className="border p-2 mt-2 rounded-md">
-                    <span>👀 Looks empty</span> <br /> Click the <PlusIcon className="inline-block" /> to create your first list.
-                  </div>
-                )}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+                    </DropdownEditDelete>
+                  </SidebarMenuItem>
+                ))
+                  : (
+                    <div className="border p-2 mt-2 rounded-md">
+                      <span>👀 Looks empty</span> <br /> Click the <PlusIcon className="inline-block" /> to create your first list.
+                    </div>
+                  )}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+    </>
   )
 }
