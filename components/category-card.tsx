@@ -77,27 +77,15 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
         <ul>
           {category.tasks.map((task) => (
             <li
-              className="p-2 border"
+              className="flex items-center p-2 gap-2"
               key={task.id}>
-              <div className="flex items-center">
-                <div className="flex-none">
-                  <input type="checkbox" className="mt-1 mr-2" />
-                </div>
-                <div
-                  className="flex-grow w-full justify-center align-center"
-                  onClick={() => modifyTask(task, "open")}
-                >
-                  <span className="w-full">{task.name}</span>
-                </div>
-                {/* Delete Button. */}
-                <div className="flex-none">
-                  <DropdownEditDelete name="Task" onDelete={() => deleteTask(task)} onEdit={() => undefined}>
-                    <button>
-                      <DotsHorizontalIcon />
-                    </button>
-                  </DropdownEditDelete>
-                </div>
-              </div>
+              <input type="checkbox" />
+              <span className="w-full">{task.name}</span>
+              <DropdownEditDelete name="Task" onDelete={() => deleteTask(task)} onEdit={() => undefined}>
+                <button>
+                  <DotsHorizontalIcon />
+                </button>
+              </DropdownEditDelete>
               {/* The modify task popover. */}
               {selectedTask?.id === task.id && (
                 <Popover
