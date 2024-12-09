@@ -1,29 +1,26 @@
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "@radix-ui/react-icons";
+import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ActiveListContext } from "@/context/active-list-context";
-import { Input } from "@/components/ui/input"
-import { useContext, useRef } from "react";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { useContext, useRef } from "react";
 
 export default function AddCategoryButton() {
   const activeList = useContext(ActiveListContext);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addCategory = (event?: React.FormEvent) => {
-    // Prevents the default form submission behavior.
     if (event) {
       event.preventDefault();
     }
     if (!inputRef.current) {
       return;
     }
-    const categoryName = inputRef.current.value.trim();
-
 
     activeList.categories.push({
       id: Math.floor(Math.random() * 1000000),
-      name: categoryName,
+      name: inputRef.current.value,
       tasks: [],
     })
     activeList.updateContext();
