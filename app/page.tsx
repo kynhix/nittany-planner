@@ -13,7 +13,7 @@ export default function Home() {
       {activeList.categories.map((category) =>
         <CategoryCard category={category} key={category.id} />
       )}
-      <AddCategoryButton /> {/* Adds AddCategoryButton to the page */}
+      <AddCategoryButton />
     </div>
     : <div className="flex m-auto justify-center items-center">Wow such empty. Select a list first.</div>
   );
