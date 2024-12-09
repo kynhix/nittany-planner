@@ -7,21 +7,14 @@ import { ActiveListContext } from "@/context/active-list-context"
 import { useContext, useState } from "react"
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover"
 import { ModifyTaskPopover } from "./modify-task-popover"
+import { DropdownEditDelete } from "./dropdown-edit-delete"
+import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 
 type CardProps = React.ComponentProps<typeof Card> & { category: Category }
 
 export function CategoryCard({ className, category, ...props }: CardProps) {
   const activeList = useContext(ActiveListContext);
-  const [hoveredTaskId, setHoveredTaskId] = useState<number | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-
-  const showHoverButtons = (task: Task) => {
-    setHoveredTaskId(task.id);
-  };
-
-  const hideHoverButtons = () => {
-    setHoveredTaskId(null);
-  };
 
   const deleteCategory = () => {
     activeList.categories = activeList.categories.filter((cat) => cat !== category)
@@ -73,7 +66,11 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
       <CardHeader>
         <CardTitle className="font-normal text-xl flex justify-between">
           <span>{category.name}</span>
-          <ConfirmDeleteDialog onAction={deleteCategory} />
+          <DropdownEditDelete name="Category" onDelete={deleteCategory} onEdit={() => undefined}>
+            <button>
+              <DotsHorizontalIcon />
+            </button>
+          </DropdownEditDelete>
         </CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4 p-3">
@@ -81,15 +78,11 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
           {category.tasks.map((task) => (
             <li
               className="p-2 border"
-              key={task.id}
-              onMouseEnter={() => showHoverButtons(task)}
-              onMouseLeave={hideHoverButtons}>
+              key={task.id}>
               <div className="flex items-center">
-                {/* Checkbox. */}
                 <div className="flex-none">
                   <input type="checkbox" className="mt-1 mr-2" />
                 </div>
-                {/* Task Name. */}
                 <div
                   className="flex-grow w-full justify-center align-center"
                   onClick={() => modifyTask(task, "open")}
@@ -98,9 +91,11 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
                 </div>
                 {/* Delete Button. */}
                 <div className="flex-none">
-                  {hoveredTaskId === task.id && (
-                    <ConfirmDeleteDialog onAction={() => deleteTask(task)} />
-                  )}
+                  <DropdownEditDelete name="Task" onDelete={() => deleteTask(task)} onEdit={() => undefined}>
+                    <button>
+                      <DotsHorizontalIcon />
+                    </button>
+                  </DropdownEditDelete>
                 </div>
               </div>
               {/* The modify task popover. */}
