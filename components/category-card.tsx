@@ -46,7 +46,7 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
               className="flex items-center p-2 gap-2"
               key={task.id}>
               <input type="checkbox" checked={task.completed} onChange={() => toggleTaskCompletion(task)} />
-              <span className="w-full">{task.name}</span>
+              <span className={cn('w-full', task.completed ? 'line-through' : '')}>{task.name}</span>
               <DropdownEditDelete name="Task" onDelete={() => deleteTask(task)} onEdit={() => undefined}>
                 <button>
                   <DotsHorizontalIcon />
