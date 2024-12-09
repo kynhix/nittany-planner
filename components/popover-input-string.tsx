@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { PopoverClose } from "@radix-ui/react-popover";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 type PopoverInputStringProps = {
   defaultText?: string
@@ -12,6 +12,7 @@ type PopoverInputStringProps = {
 };
 
 export default function PopoverInputString({ defaultText, children, name, onSubmit }: PopoverInputStringProps) {
+  const [canSubmit, setCanSubmit] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (event?: React.FormEvent) => {
@@ -22,9 +23,14 @@ export default function PopoverInputString({ defaultText, children, name, onSubm
       return;
     }
 
-    onSubmit(inputRef.current.value)
+    onSubmit(inputRef.current.value.trim())
     inputRef.current.value = '';
   };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const s = event.currentTarget.value.trim()
+    setCanSubmit(s !== '')
+  }
 
   return (
     <Popover>
@@ -33,9 +39,13 @@ export default function PopoverInputString({ defaultText, children, name, onSubm
       </PopoverTrigger>
       <PopoverContent className="flex flex-col gap-2 w-56">
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-          <Input ref={inputRef} placeholder={`${name} name`} defaultValue={defaultText} />
+          <Input
+            ref={inputRef}
+            placeholder={`${name} name`}
+            defaultValue={defaultText}
+            onChange={handleChange} />
           <PopoverClose asChild>
-            <Button type="submit">{defaultText ? 'Save' : 'Create'} {name}</Button>
+            <Button disabled={!canSubmit} type="submit">{defaultText ? 'Save' : 'Create'} {name}</Button>
           </PopoverClose>
         </form>
       </PopoverContent>
