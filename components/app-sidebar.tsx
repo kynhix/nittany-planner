@@ -8,15 +8,16 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Task, TaskList } from "@/lib/core";
+import { TaskList } from "@/lib/core";
 import AddListButton from "./add-list-button";
-import { PlusIcon } from "@radix-ui/react-icons";
-import { useContext, useState } from "react";
+import { DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons";
+import { useContext } from "react";
 import { ActiveListContext } from "@/context/active-list-context";
-import { ConfirmDeleteDialog } from "./confirm-delete-dialog";
+import { DropdownEditDelete } from "./dropdown-edit-delete";
 
 type AppSidebarProps = {
   lists: TaskList[]
@@ -25,70 +26,55 @@ type AppSidebarProps = {
 
 export function AppSidebar({ lists, ...props }: AppSidebarProps) {
   const activeList = useContext(ActiveListContext);
-  const [hoveredTaskId, setHoveredTaskId] = useState<number | null>(null);
 
   const onClickList = (list: TaskList) => {
     activeList.updateContext(list)
   }
 
   const onAddList = (list: TaskList) => {
-    lists.push(list)
-    props.setLists(lists.slice())
+    props.setLists([...lists, list])
   }
 
-  const showHoverButtons = (list: TaskList) => {
-    setHoveredTaskId(list.id);
-  };
-
-  const hideHoverButtons = () => {
-    setHoveredTaskId(null);
-  };
-
   const deleteList = (list: TaskList) => {
-    let indexToDelete = -1;
-    for (let i = 0; i < lists.length; i++) {
-      if (lists[i].id == list.id) {
-        indexToDelete = i;
-        break;
-      }
-    }
-    if (indexToDelete != -1) {
-      lists.splice(indexToDelete, 1);
-    }
-    activeList.updateContext(activeList);
-  };
+    props.setLists(lists.filter((l) => l.id != list.id))
+  }
 
   return (
-    <Sidebar>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Lists</SidebarGroupLabel>
-          <SidebarGroupAction title="Add List">
-            <AddListButton onClick={onAddList} />
-          </SidebarGroupAction>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {lists.length !== 0 ? lists.map((list) => (
-                <SidebarMenuItem key={list.name}
-                  onMouseEnter={() => showHoverButtons(list)}
-                  onMouseLeave={hideHoverButtons}>
-                  <SidebarMenuButton onClick={() => onClickList(list)} asChild isActive={activeList.id === list.id}>
-                    <div className="flex justify-between">
+    <>
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Lists</SidebarGroupLabel>
+            <SidebarGroupAction title="Add List">
+              <AddListButton onClick={onAddList} />
+            </SidebarGroupAction>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {lists.length !== 0 ? lists.map((list) => (
+                  <SidebarMenuItem key={list.id}>
+                    <SidebarMenuButton
+                      onClick={() => onClickList(list)}
+                      isActive={activeList.id === list.id}
+                      asChild>
                       <span>{list.name}</span>
-                      {hoveredTaskId === list.id && (<ConfirmDeleteDialog onAction={() => deleteList(list)} />)}
+                    </SidebarMenuButton>
+                    <DropdownEditDelete name="List" onDelete={() => deleteList(list)} onEdit={() => undefined}>
+                      <SidebarMenuAction>
+                        <DotsHorizontalIcon />
+                      </SidebarMenuAction>
+                    </DropdownEditDelete>
+                  </SidebarMenuItem>
+                ))
+                  : (
+                    <div className="border p-2 mt-2 rounded-md">
+                      <span>👀 Looks empty</span> <br /> Click the <PlusIcon className="inline-block" /> to create your first list.
                     </div>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))
-                : (
-                  <div className="border p-2 mt-2 rounded-md">
-                    <span>👀 Looks empty</span> <br /> Click the <PlusIcon className="inline-block" /> to create your first list.
-                  </div>
-                )}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+                  )}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+    </>
   )
 }
