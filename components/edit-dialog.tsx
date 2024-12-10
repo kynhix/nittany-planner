@@ -32,7 +32,7 @@ export function EditDialog(props: EditDialogProps) {
       return;
     }
 
-    // onSubmit(inputRef.current.value.trim())
+    props.onSubmit(inputRef.current.value.trim())
     inputRef.current.value = '';
   };
 
