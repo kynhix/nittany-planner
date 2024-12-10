@@ -64,7 +64,7 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
                       asChild>
                       <span>{list.name}</span>
                     </SidebarMenuButton>
-                    <DropdownEditDelete name="List" onDelete={() => deleteList(list)} onEdit={() => undefined}>
+                    <DropdownEditDelete name="List" onDelete={() => deleteList(list)} defaultValue={list.name} onEdit={() => undefined}>
                       <SidebarMenuAction>
                         <DotsHorizontalIcon />
                       </SidebarMenuAction>

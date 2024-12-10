@@ -43,7 +43,7 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
       <CardHeader>
         <CardTitle className="font-normal text-xl flex justify-between">
           <span>{category.name}</span>
-          <DropdownEditDelete name="Category" onDelete={deleteCategory} onEdit={() => undefined}>
+          <DropdownEditDelete name="Category" defaultValue={category.name} onDelete={deleteCategory} onEdit={() => undefined}>
             <button>
               <DotsHorizontalIcon />
             </button>
@@ -58,7 +58,7 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
               key={task.id}>
               <input type="checkbox" checked={task.completed} onChange={() => toggleTaskCompletion(task)} />
               <span className={cn('w-full', task.completed ? 'line-through' : '')}>{task.name}</span>
-              <DropdownEditDelete name="Task" onDelete={() => deleteTask(task)} onEdit={() => undefined}>
+              <DropdownEditDelete name="Task" defaultValue={task.name} onDelete={() => deleteTask(task)} onEdit={() => undefined}>
                 <button>
                   <DotsHorizontalIcon />
                 </button>
