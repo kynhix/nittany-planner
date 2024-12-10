@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { DialogClose } from "@radix-ui/react-dialog"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 
 type EditDialogProps = {
@@ -41,6 +41,10 @@ export function EditDialog(props: EditDialogProps) {
     const s = event.target.value.trim()
     setCanSubmit(s !== '')
   }
+
+  useEffect(() => {
+    setText(props.defaultValue)
+  }, [props.defaultValue])
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
