@@ -1,15 +1,17 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useDialogDropdown } from "./ui/use-dialog";
 import { ConfirmDeleteDialog } from "./confirm-delete-dialog";
+import { EditDialog } from "./edit-dialog";
 
 type DropdownEditDeleteProps = {
-  name: string;
+  name: string
+  defaultValue: string
   children: React.ReactNode
   onDelete: () => void
   onEdit: (name: string) => void
 };
 
-export function DropdownEditDelete({ name, children, onDelete }: DropdownEditDeleteProps) {
+export function DropdownEditDelete({ name, children, onDelete, onEdit, defaultValue }: DropdownEditDeleteProps) {
   const editDialog = useDialogDropdown()
   const deleteDialog = useDialogDropdown()
 
@@ -29,6 +31,7 @@ export function DropdownEditDelete({ name, children, onDelete }: DropdownEditDel
         </DropdownMenuContent>
       </DropdownMenu>
       <ConfirmDeleteDialog {...deleteDialog.dialogProps} noChild onAction={onDelete} />
+      <EditDialog name={name} onSubmit={onEdit} defaultValue={defaultValue} {...editDialog.dialogProps} />
     </>
   )
 }

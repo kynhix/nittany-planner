@@ -1,16 +1,37 @@
 import { cn } from "@/lib/utils"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
 import { Category, Task } from "@/lib/core"
-import AddTaskButton from "@/components/add-task-button"
 import { ActiveListContext } from "@/context/active-list-context"
 import { useContext } from "react"
 import { DropdownEditDelete } from "./dropdown-edit-delete"
-import { DotsHorizontalIcon } from "@radix-ui/react-icons"
+import { DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons"
+import { Button } from "./ui/button"
+import PopoverInputString from "./popover-input-string"
 
 type CardProps = React.ComponentProps<typeof Card> & { category: Category }
 
 export function CategoryCard({ className, category, ...props }: CardProps) {
   const activeList = useContext(ActiveListContext);
+
+  const addTask = (s: string) => {
+    category.tasks.push({
+      id: Math.floor(Math.random() * 1000000),
+      name: s,
+      completed: false,
+    });
+
+    activeList.updateContext();
+  };
+
+  const modifyCategory = (s: string, c: Category) => {
+    c.name = s
+    activeList.updateContext();
+  }
+
+  const modifyTask = (s: string, t: Task) => {
+    t.name = s
+    activeList.updateContext();
+  }
 
   const deleteCategory = () => {
     activeList.categories = activeList.categories.filter((cat) => cat !== category)
@@ -32,7 +53,11 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
       <CardHeader>
         <CardTitle className="font-normal text-xl flex justify-between">
           <span>{category.name}</span>
-          <DropdownEditDelete name="Category" onDelete={deleteCategory} onEdit={() => undefined}>
+          <DropdownEditDelete
+            name="Category"
+            defaultValue={category.name}
+            onDelete={deleteCategory}
+            onEdit={(s) => modifyCategory(s, category)}>
             <button>
               <DotsHorizontalIcon />
             </button>
@@ -47,7 +72,11 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
               key={task.id}>
               <input type="checkbox" checked={task.completed} onChange={() => toggleTaskCompletion(task)} />
               <span className={cn('w-full', task.completed ? 'line-through' : '')}>{task.name}</span>
-              <DropdownEditDelete name="Task" onDelete={() => deleteTask(task)} onEdit={() => undefined}>
+              <DropdownEditDelete
+                name="Task"
+                defaultValue={task.name}
+                onDelete={() => deleteTask(task)}
+                onEdit={(s) => modifyTask(s, task)}>
                 <button>
                   <DotsHorizontalIcon />
                 </button>
@@ -57,7 +86,11 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
         </ul>
       </CardContent>
       <CardFooter className="flex flex-col">
-        <AddTaskButton category={category} />
+        <PopoverInputString name="Task" onSubmit={addTask}>
+          <Button className="w-full">
+            <PlusIcon /> Add task
+          </Button>
+        </PopoverInputString>
       </CardFooter>
     </Card >
   )

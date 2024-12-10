@@ -13,11 +13,11 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { TaskList } from "@/lib/core";
-import AddListButton from "./add-list-button";
 import { DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useContext } from "react";
 import { ActiveListContext } from "@/context/active-list-context";
 import { DropdownEditDelete } from "./dropdown-edit-delete";
+import PopoverInputString from "./popover-input-string";
 
 type AppSidebarProps = {
   lists: TaskList[]
@@ -31,8 +31,17 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
     activeList.updateContext(list)
   }
 
-  const onAddList = (list: TaskList) => {
-    props.setLists([...lists, list])
+  const onAddList = (s: string) => {
+    props.setLists([...lists, {
+      id: Math.floor(Math.random() * 1000000),
+      name: s,
+      categories: [],
+    }])
+  }
+
+  const modifyList = (s: string, l: TaskList) => {
+    l.name = s
+    props.setLists([...lists])
   }
 
   const deleteList = (list: TaskList) => {
@@ -46,7 +55,9 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
           <SidebarGroup>
             <SidebarGroupLabel>Lists</SidebarGroupLabel>
             <SidebarGroupAction title="Add List">
-              <AddListButton onClick={onAddList} />
+              <PopoverInputString name="List" onSubmit={onAddList}>
+                <PlusIcon />
+              </PopoverInputString>
             </SidebarGroupAction>
             <SidebarGroupContent>
               <SidebarMenu>
@@ -58,7 +69,10 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
                       asChild>
                       <span>{list.name}</span>
                     </SidebarMenuButton>
-                    <DropdownEditDelete name="List" onDelete={() => deleteList(list)} onEdit={() => undefined}>
+                    <DropdownEditDelete
+                      name="List" onDelete={() => deleteList(list)}
+                      defaultValue={list.name}
+                      onEdit={(s) => modifyList(s, list)}>
                       <SidebarMenuAction>
                         <DotsHorizontalIcon />
                       </SidebarMenuAction>
