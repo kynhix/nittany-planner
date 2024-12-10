@@ -39,6 +39,11 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
     }])
   }
 
+  const modifyList = (s: string, l: TaskList) => {
+    l.name = s
+    props.setLists([...lists])
+  }
+
   const deleteList = (list: TaskList) => {
     props.setLists(lists.filter((l) => l.id != list.id))
   }
@@ -64,7 +69,10 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
                       asChild>
                       <span>{list.name}</span>
                     </SidebarMenuButton>
-                    <DropdownEditDelete name="List" onDelete={() => deleteList(list)} defaultValue={list.name} onEdit={() => undefined}>
+                    <DropdownEditDelete
+                      name="List" onDelete={() => deleteList(list)}
+                      defaultValue={list.name}
+                      onEdit={(s) => modifyList(s, list)}>
                       <SidebarMenuAction>
                         <DotsHorizontalIcon />
                       </SidebarMenuAction>
