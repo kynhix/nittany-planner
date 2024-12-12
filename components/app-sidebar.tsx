@@ -3,6 +3,7 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupAction,
   SidebarGroupContent,
@@ -18,6 +19,7 @@ import { useContext } from "react";
 import { ActiveListContext } from "@/context/active-list-context";
 import { DropdownEditDelete } from "./dropdown-edit-delete";
 import PopoverInputString from "./popover-input-string";
+import { ModeToggle } from "./light-dark-toggle";
 
 type AppSidebarProps = {
   lists: TaskList[]
@@ -88,6 +90,7 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
+        <SidebarFooter><ModeToggle /></SidebarFooter>
       </Sidebar>
     </>
   )

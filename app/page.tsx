@@ -28,8 +28,8 @@ export default function Home() {
         <CategoryCard category={category} key={category.id} />
       )}
       <PopoverInputString name="Category" onSubmit={addCategory}>
-        <Button>
-          <PlusIcon /> Add Category
+        <Button className="w-80">
+          <PlusIcon /> Add category
         </Button>
       </PopoverInputString>
     </div>
