@@ -2,6 +2,7 @@
 
 import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { ThemeProvider } from "@/components/theme-provider"
 import { AppSidebar } from "@/components/app-sidebar";
 import { load, save } from "@/lib/storage";
 import { ActiveListContext } from "@/context/active-list-context";
@@ -42,15 +43,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SidebarProvider>
-          <ActiveListContext.Provider value={{ ...activeList, updateContext }}>
-            <AppSidebar lists={lists} setLists={setLists} />
-            <main className="flex w-full h-screen">
-              <SidebarTrigger />
-              {children}
-            </main>
-          </ActiveListContext.Provider>
-        </SidebarProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SidebarProvider>
+            <ActiveListContext.Provider value={{ ...activeList, updateContext }}>
+              <AppSidebar lists={lists} setLists={setLists} />
+              <main className="flex w-full h-screen">
+                <SidebarTrigger />
+                {children}
+              </main>
+            </ActiveListContext.Provider>
+          </SidebarProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
