@@ -25,7 +25,7 @@ export default function Home() {
         <CategoryCard category={category} key={category.id} />
       )}
       <PopoverInputString name="Category" onSubmit={addCategory}>
-        <Button className="w-80 bg-green-950 hover:bg-green-900">
+        <Button className="w-80">
           <PlusIcon /> Add category
         </Button>
       </PopoverInputString>

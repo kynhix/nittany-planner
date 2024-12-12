@@ -87,7 +87,7 @@ export function CategoryCard({ className, category, ...props }: CardProps) {
       </CardContent>
       <CardFooter className="flex flex-col">
         <PopoverInputString name="Task" onSubmit={addTask}>
-          <Button className="w-full bg-neutral-700">
+          <Button className="w-full">
             <PlusIcon /> Add task
           </Button>
         </PopoverInputString>
