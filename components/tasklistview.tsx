@@ -28,7 +28,7 @@ export function TaskListView({ category, onAddTaskList, onAddTask }: {
             className="bg-green-500 text-white p-1 rounded mt-2"
             onClick={() => onAddTask(taskList.id, `New Task ${Date.now()}`)}
           >
-            Add Task
+            Add task
           </button>
           <div className="tasks mt-2">
             {taskList.tasks.map((task) => (
@@ -51,7 +51,7 @@ export function TaskListView({ category, onAddTaskList, onAddTask }: {
           className="mt-2 bg-blue-500 text-white p-1 rounded"
           onClick={handleAddTaskList}
         >
-          Add Task List
+          Add task list
         </button>
       </div>
     </div>
