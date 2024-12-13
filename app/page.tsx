@@ -21,9 +21,6 @@ export default function Home() {
 
   return (activeList.id !== -1 ?
     <div className="flex flex-wrap p-8 content-start gap-4">
-      <div className="w-full text-center my-10 mb-15">
-        <h1 className=" text-blue-600 text-5xl justify-center">NITANNY PLANNER</h1>
-      </div>
       {activeList.categories.map((category) =>
         <CategoryCard category={category} key={category.id} />
       )}
