@@ -8,6 +8,7 @@ import {
   SidebarGroupAction,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuAction,
   SidebarMenuButton,
@@ -52,8 +53,9 @@ export function AppSidebar({ lists, ...props }: AppSidebarProps) {
 
   return (
     <>
-      <Sidebar>
+      <Sidebar side="left">
         <SidebarContent>
+          <SidebarHeader className="w-full text-center font-bold text-lg text-blue-800 dark:text-blue-400">Nittany Planner</SidebarHeader>
           <SidebarGroup>
             <SidebarGroupLabel>Lists</SidebarGroupLabel>
             <SidebarGroupAction title="Add List">
